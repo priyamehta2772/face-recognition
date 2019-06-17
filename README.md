@@ -1,8 +1,9 @@
 # Facial Expression Recognition using CNN in Tensorflow
 
 Team: <br/>
+    <ol>
     K. Monica Sai 2000146 <br/>
-    Priya Mehta           <br/>
+    Priya Mehta           <br/><ol/>
     
 This project is divided into two phases:<br/>
 
