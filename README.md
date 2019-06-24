@@ -1,11 +1,9 @@
-# Facial Expression Recognition using CNN in Tensorflow
+# Face Recognition
 
 Team: <br/>
     <ol>
     K. Monica Sai 2000146 <br/>
     Priya Mehta 2000174           <br/><ol/>
     
-This project is divided into two phases:<br/>
-
-In the first phase, we will be using ResNet-50 model in Keras for face identification.  <br/>
-In the second phase, facial expression recognition will be carried out.                 
+In this project we will use various feature extraction methods such as dlib library and PCA. <br/>
+On the features extracted we will be using SVM classifer for face recognition.
