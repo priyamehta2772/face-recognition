@@ -7,6 +7,6 @@ Team: <br/>
     
 In this project we will use the following feature extraction methods:<br/>
 1. Landmarks extraction using dlib 
-2. Embeddings from CNN
+2. Face encodings from CNN
 <br/>
-On the features extracted we will be using SVM classifer for face recognition.
+On the features extracted we will use KNN classifier, SVM classifer for face recognition.
