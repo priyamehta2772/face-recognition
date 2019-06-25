@@ -54,7 +54,7 @@ Train=np.zeros((120,68)) # Matrix of distances
 z = 0
 
 rep_landmarks = list()
-for subject in range(1, 15):
+for subject in range(1, 16):
     
     subject_landmarks = []
     if subject < 10:
@@ -71,11 +71,7 @@ for subject in range(1, 15):
         faces = detector(image, 1)
         for i, face in enumerate(faces):
             shape = predictor(image, face)
-            (x, y, w, h) = face_utils.rect_to_bb(face)
-            cv2.rectangle(image, (x, y), (x + w, y + h), (0, 255, 0), 2)
             shape = face_utils.shape_to_np(shape)
-            for (x, y) in shape:
-                cv2.circle(image, (x, y), 1, (0, 0, 255), -1)
                 
         representative_landmark = [ sum([point[0] for point in shape]) / 68, sum([point[1] for point in shape]) / 68]
         train_distances = [0] * 68
@@ -88,21 +84,19 @@ for subject in range(1, 15):
         z += 1
 
 
-test_image = "E:\Talentsprint_WE\FaceExpressionRecognitionUsingCNN\faces\subject01.sad.pgm"
-faces = detector(image, 1)
-for i, face in enumerate(faces):
-    test_shape = predictor(image, face)
-    (x, y, w, h) = face_utils.rect_to_bb(face)
-    cv2.rectangle(image, (x, y), (x + w, y + h), (0, 255, 0), 2)
+test_image = "E:\Talentsprint_WE\FaceExpressionRecognitionUsingCNN\\faces\subject11.wink.pgm"
+
+test_image = cv2.imread(test_image,-1)
+test_image_faces = detector(test_image, 1)
+for i, face in enumerate(test_image_faces):
+    test_shape = predictor(test_image, face)
     test_shape = face_utils.shape_to_np(test_shape)
-    for (x, y) in test_shape:
-        cv2.circle(image, (x, y), 1, (0, 0, 255), -1)
         
 test_landmarks = [ sum([point[0] for point in test_shape]) / 68, sum([point[1] for point in test_shape]) / 68]
 test_distances = [0] * 68
 for (name, (i,j)) in face_utils.FACIAL_LANDMARKS_IDXS.items():
     index = i
-    for (x, y) in shape[i:j]:
+    for (x, y) in test_shape[i:j]:
         test_distances[index] = euclidean_distance(test_landmarks, (x,y))
         index += 1
 
