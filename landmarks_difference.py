@@ -31,7 +31,6 @@ def euclidean_distance(x, y):
 
 predictor_path = "C:\Anaconda3\shape_predictor_68_face_landmarks.dat"
 faces_folder_path = "E:\Talentsprint_WE\FaceExpressionRecognitionUsingCNN\\faces"
-    #new_folder_path = "E:\Talentsprint_WE\detected_faces\\"
     
 file_list=os.listdir(faces_folder_path)
 file_list = [x for x in file_list if re.search("^.*pgm$", x)]
@@ -50,7 +49,8 @@ FACIAL_LANDMARKS_IDXS = OrderedDict([
 	("jaw", (0, 17))
 ])
 
-Train=np.zeros((120,68)) # Matrix of distances
+split = 5
+Train=np.zeros((15 * split,68)) # Matrix of distances
 z = 0
 
 rep_landmarks = list()
@@ -64,7 +64,7 @@ for subject in range(1, 16):
         
     images_list = [x for x in file_list if re.search("^.*" + subject + ".*pgm$", x)]
 
-    for image_name in images_list[:8]:
+    for image_name in images_list[:split]:
         image_path = faces_folder_path + "\\" + image_name
         image = cv2.imread(image_path,-1)
         #print(image_path)
@@ -83,49 +83,47 @@ for subject in range(1, 16):
         Train[z,:] = train_distances
         z += 1
 
-
-test_image = "E:\Talentsprint_WE\FaceExpressionRecognitionUsingCNN\\faces\subject11.wink.pgm"
-
-test_image = cv2.imread(test_image,-1)
-test_image_faces = detector(test_image, 1)
-for i, face in enumerate(test_image_faces):
-    test_shape = predictor(test_image, face)
-    test_shape = face_utils.shape_to_np(test_shape)
+count = 0
+img_count = 0
+for subject in range(1, 16):
+    
+    subject_landmarks = []
+    if subject < 10:
+        subject = "0" + str(subject)
+    else:
+        subject = str(subject)
         
-test_landmarks = [ sum([point[0] for point in test_shape]) / 68, sum([point[1] for point in test_shape]) / 68]
-test_distances = [0] * 68
-for (name, (i,j)) in face_utils.FACIAL_LANDMARKS_IDXS.items():
-    index = i
-    for (x, y) in test_shape[i:j]:
-        test_distances[index] = euclidean_distance(test_landmarks, (x,y))
-        index += 1
+    images_list = [x for x in file_list if re.search("^.*" + subject + ".*pgm$", x)]
 
-Train_diff = np.zeros((120,68)) # Matrix of differences of distances
+    for test_image_name in images_list[split:]:
+        img_count += 1
+        test_image = faces_folder_path + "\\" + test_image_name
 
-for index in range(len(Train)):
-    Train_diff[index,:] = list(map(abs, np.subtract(Train[index], np.asarray(test_distances))))
-    
-Train_diff_means = [0] * 120
-for index in range(len(Train_diff)):
-    Train_diff_means[index] = np.mean(Train_diff[index])
-    
-print(Train_diff_means.index(min(Train_diff_means)))
+        test_image = cv2.imread(test_image,-1)
+        test_image_faces = detector(test_image, 1)
+        for i, face in enumerate(test_image_faces):
+            test_shape = predictor(test_image, face)
+            test_shape = face_utils.shape_to_np(test_shape)
+        
+            test_landmarks = [ sum([point[0] for point in test_shape]) / 68, sum([point[1] for point in test_shape]) / 68]
+            test_distances = [0] * 68
+            for (name, (i,j)) in face_utils.FACIAL_LANDMARKS_IDXS.items():
+                index = i
+                for (x, y) in test_shape[i:j]:
+                    test_distances[index] = euclidean_distance(test_landmarks, (x,y))
+                    index += 1
 
-###############################################################################
-for (name, (i,j)) in face_utils.FACIAL_LANDMARKS_IDXS.items():
+        Train_diff = np.zeros((15 * split,68)) # Matrix of differences of distances
+        
+        for index in range(len(Train)):
+            Train_diff[index,:] = list(map(abs, np.subtract(Train[index], np.asarray(test_distances))))
     
-    #clone = image.copy()
-    #cv2.putText(clone, name, (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 0, 255), 2)
-    index = i
-    for (x, y) in shape[i:j]:
-        train_distances[index] = euclidean_distance(representative_landmark, (x,y))
-        index += 1
-        #cv2.circle(clone, (x, y), 1, (0, 0, 255), -1)
-    (x, y, w, h) = cv2.boundingRect(np.array([shape[i:j]]))
-    roi = image[y:y + h, x:x + w]
-    roi = imutils.resize(roi, width=350, inter=cv2.INTER_CUBIC)
- 
-		# show the particular face part
-    cv2.imshow("ROI", roi)
-    cv2.imshow("Clone",clone)
-    cv2.waitKey(0)
+        Train_diff_means = [0] * 15 * split
+        for index in range(len(Train_diff)):
+            Train_diff_means[index] = np.mean(Train_diff[index])
+    
+        if int(Train_diff_means.index(min(Train_diff_means)) // split) == int(subject) - 1:
+            count += 1
+            
+print(count*100/img_count, "->", split)
+
