@@ -4,8 +4,9 @@ Created on Tue Jun 25 15:39:33 2019
 
 @author: priya
 
-trainset_df dataframe is fed to svm classifier
+svm classifier from sklearn
 """
+
 import pandas as pd
 import os
 import dlib
@@ -98,9 +99,10 @@ Train = np.append(Train, target, axis=1)
 
 trainset_df = pd.DataFrame(data=Train, index=[x for x in range(120)], columns=[x for x in range(69)])
 #print(trainset_df)
-
-clf = svm.SVC(kernel='linear', C = 1.0)
-clf.fit(trainset_df[[x for x in range(68)]], trainset_df[68])
+X_train = trainset_df.iloc[:,list(range(0,68))]
+y_train = trainset_df.iloc[:, 68]
+clf = svm.SVC(kernel = "poly", C=1.0)
+clf.fit(X_train, y_train)
 
 target = np.zeros((15 * (11 - split),1))
 target_index = 0
