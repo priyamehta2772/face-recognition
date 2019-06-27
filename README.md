@@ -5,8 +5,9 @@ Team: <br/>
     K. Monica Sai 2000146 <br/>
     Priya Mehta 2000174           <br/><ol/>
     
-In this project we will use the following feature extraction methods:<br/>
-1. Landmarks extraction using dlib 
-2. Face encodings from CNN
 <br/>
-On the features extracted we will use KNN classifier, SVM classifer for face recognition.
+In this project we extracted landmarks of a face using dlib library. Then using those landmarks we performed the following algorithms on it:<br/>
+Approach 1 : In the first approach, we use representative landmark as a feature to identify different faces using 1NN algorithm.
+Approach 2 : In the second approach, we use the differences between representative landmark and other landmarks of face to identify different faces using 1NN algorithm.
+Approach 3 : In the third approach, we give the differences between representative landmark and other landmarks of face to identify different faces using SVM algorithm.
+<br/>
