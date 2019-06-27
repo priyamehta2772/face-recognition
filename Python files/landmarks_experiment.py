@@ -64,11 +64,15 @@ predictor = dlib.shape_predictor(predictor_path)
 indices = [2, 0, 8, 7, 10, 4, 9, 1, 5, 6, 3]
 
 split = 8
-Train = np.zeros((15 * split, 2))
-Test = np.zeros((15 * (11 - split), 2))
+no_of_classes = 15
+images_per_subject = 11
+no_of_landmarks =  68
+
+Train = np.zeros((no_of_classes * split, 2))
+Test = np.zeros((no_of_classes * (images_per_subject - split), 2))
 train = 0
 test = 0
-for subject in range(1, 16):
+for subject in range(1, no_of_classes + 1):
     
     subject = get_subject_name(subject)
     subject_landmarks = []

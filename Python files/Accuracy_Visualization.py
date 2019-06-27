@@ -14,16 +14,7 @@ def visualize(accuracy):
 
 
 #Visualizing Train images combination for Approach 1
-''' 
-    Accuracy                Train images combination
-28.88888888888889 -> [2, 3, 1, 9, 5, 6, 0, 8, 7, 10, 4]
-35.55555555555556 -> [3, 4, 5, 10, 6, 8, 9, 7, 2, 1, 0]
-26.666666666666668 -> [8, 9, 1, 0, 10, 6, 5, 4, 7, 3, 2]
-42.22222222222222 -> [9, 2, 3, 10, 5, 6, 0, 7, 8, 4, 1]
-40.0 -> [10, 0, 5, 3, 6, 8, 9, 2, 1, 4, 7]
-31.11111111111111 -> [5, 8, 1, 0, 3, 6, 2, 10, 9, 4, 7]
-'''
-accuracy = {"Set 1":28.88, "Set 2":35.55, "Set 3":26.66, "Set 4":42.22, "Set 5":40.0, "Set 6":31.11}
+accuracy = {"Set 1":28.88, "Set 2":28.88, "Set 3":28.88, "Set 4":33.33, "Set 5":20.0, "Set 6":22.22, "Set 7":26.66, "Set 7":24.44}
 visualize(accuracy)
 
 # Visualizing Train images combination for Approach 2

@@ -78,7 +78,7 @@ test_target_index = 0
 
 #indices = list(range(11))
 #random.shuffle(indices)
-indices = [2, 0, 8, 7, 10, 4, 9, 1, 5, 6, 3]
+indices = [5, 0, 8, 7, 10, 4, 9, 1, 2, 6, 3]
 
 rep_landmarks = list()
 for subject in range(1, 16):
